@@ -1,0 +1,44 @@
+library(tidyverse)
+library(dplyr)
+
+df<-read.csv("data_scientist_salary_2021.csv", sep=",")
+colnames(df)
+
+#dropping columns in df (keeping the ones I nneed)
+df<-df[c(40,21,5,8,7,11,12,13,10,23,14,18,19,20,9,16,24,25,27,28,29,35,31,39)]
+colnames(df)
+
+#creating salary_spread variable 
+salary_spread<- df[,13]-df[,12]
+colnames(df)
+
+#applying variable to column in df
+df$salary_spread <- salary_spread
+
+head(df)
+colnames(df)
+
+#reording the columns (salary spread before avg salary)
+df <- df %>% relocate(salary_spread, .before = Avg.Salary.K.)
+colnames(df)
+
+
+#Creating Lower Size from Size
+df[c('Lower','Upper')] <- str_split_fixed(df$Size,' ',2)
+
+#drop Upper
+df <- df[-c(27)]
+colnames(df)
+
+#getting rid of + signs
+df$Lower<- gsub("+","",as.character(df$Lower))
+
+
+head(df)
+#describe(df)
+
+#Graphs
+colnames(df)
+
+  
+  
